@@ -1,0 +1,93 @@
+# Python package
+# Create and test a Python package on multiple Python versions.
+# Add steps that analyze code, save the dist with the build record, publish to a PyPI-compatible index, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/python
+
+trigger:
+- master
+
+variables:
+# Agent VM image name
+- name: vmImageName
+  value: 'ubuntu-latest'
+
+- name: python.version
+  value: '3.10'
+
+stages:
+  - stage: Test
+    displayName: test
+    pool:
+      vmimage: $(vmImageName)
+    jobs:
+    - job: BuildJob
+      steps:
+      
+      - task: UsePythonVersion@0
+        inputs:
+          versionSpec: '$(python.version)'
+        displayName: 'Use Python $(python.version)'
+
+      - script: |
+          python -m pip install --upgrade pip
+          pip install poetry
+          poetry install
+        displayName: 'Install dependencies'
+
+      - script: |
+          poetry run pytest
+        displayName: "Test package"
+
+      - publish: $(System.DefaultWorkingDirectory)/dist/
+        artifact: "python_package"
+
+  - stage: Build
+    displayName: Build
+    pool:
+      vmimage: $(vmImageName)
+    jobs:
+    - job: BuildJob
+      steps:
+      
+      - task: UsePythonVersion@0
+        inputs:
+          versionSpec: '$(python.version)'
+        displayName: 'Use Python $(python.version)'
+
+      - script: |
+          python -m pip install --upgrade pip
+          pip install poetry
+          pip install twine
+          poetry install --no-dev
+        displayName: 'Install dependencies'
+
+      - script: |
+          poetry build
+        displayName: "Build package"
+
+      - publish: $(System.DefaultWorkingDirectory)/dist/
+        artifact: "python_package"
+
+  - stage: Publish
+    displayName: Publish
+    pool:
+      vmimage: $(vmImageName)
+    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+    jobs:
+    - job: PublishJob
+      steps:
+      
+      - task: TwineAuthenticate@1
+        inputs:
+          artifactFeed: "Fast/Packages"
+      
+      - task: DownloadPipelineArtifact@2
+        inputs:
+          artifact: "python_package"
+          path: $(System.DefaultWorkingDirectory)/dist/
+
+      - script: |
+          python -m pip install --upgrade pip
+          pip install twine
+          twine upload -r Packages --config-file $(PYPIRC_PATH) dist/*.whl
+        displayName: Upload package to Azure Artifact
