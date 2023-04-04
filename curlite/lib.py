@@ -2,7 +2,7 @@ import subprocess
 import json as json_parser
 from curlite.exceptions import get_exception_for_curl_error
 from curlite import exceptions
-
+from typing import Dict
 
 
 class CurlWrapper:
@@ -65,7 +65,7 @@ class CurlWrapper:
 class Response:
     raw_response: str
     status_line: str
-    headers: dict
+    headers: Dict[str, str]
     content: str
 
     def __init__(self, url:str, raw_response: str):
