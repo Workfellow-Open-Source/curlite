@@ -1,7 +1,6 @@
 from unittest.mock import patch, MagicMock
 from unittest import TestCase
 from curlite.lib import CurlWrapper, Response
-import pytest
 from curlite import exceptions
 
 
