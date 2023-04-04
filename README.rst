@@ -64,8 +64,13 @@ License
 `curlite` is maintained as part of Workfellow's open source projects. See https://www.workfellow.ai for more information.
 
 Keywords: curl, requests, http, https, ssl, certificate, windows, curlite, curl wrapper, libcurl, httpx
+
 Home-page: https://github.com/Workfellow-Open-Source/curlite
+
 Project-URL: Bug Tracker, https://github.com/Workfellow-Open-Source/curlite
+
 Project-URL: Documentation, https://github.com/Workfellow-Open-Source/curlite
+
 Requires-Python: >=3.9
+
 Author: Mohammed Salman
