@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "curlite"
-version = "0.1.7"
+version = "0.1.8"
 description = "Python wrapper for libcurl to make http requests in a more pythonic way"
 authors = ["mohammed-workfellow <mohammed@workfellow.ai>"]
 readme = "README.rst"
