@@ -7,7 +7,7 @@ readme = "README.rst"
 packages = [{include = "curlite"}]
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = "^3.7"
 
 
 [tool.poetry.group.dev.dependencies]
