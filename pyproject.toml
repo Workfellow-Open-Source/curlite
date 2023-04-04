@@ -3,7 +3,7 @@ name = "curlite"
 version = "0.1.7"
 description = "Python wrapper for libcurl to make http requests in a more pythonic way"
 authors = ["mohammed-workfellow <mohammed@workfellow.ai>"]
-readme = "README.md"
+readme = "README.rst"
 packages = [{include = "curlite"}]
 
 [tool.poetry.dependencies]
